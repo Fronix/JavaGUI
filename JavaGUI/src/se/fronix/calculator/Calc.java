@@ -43,7 +43,6 @@ class MyPanel extends JPanel implements ActionListener {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	NumberFormat nf = NumberFormat.getInstance();
 	JButton buttonAddition;
 	JButton buttonSubtraktion;
 	JButton buttonMultiplikation;
@@ -76,7 +75,7 @@ class MyPanel extends JPanel implements ActionListener {
 		
 		ruta1 = new JTextField(20);
 		ruta2 = new JTextField(20);	
-		antaldec = new JTextField(10);
+		antaldec = new JTextField("2");
 		
 		ruta1Label = new JLabel("Tal 1");
 		ruta2Label = new JLabel("Tal 2");
@@ -128,7 +127,7 @@ class MyPanel extends JPanel implements ActionListener {
 
 	public void actionPerformed(ActionEvent evt) {
 		Object source = evt.getSource();
-		nf.setMaximumFractionDigits(5);
+		NumberFormat nf = NumberFormat.getInstance();
 		/* Hämta texten från ruta1 och 2 och gör om dessa till int */
 		
 		if (source == rensa) {
@@ -140,23 +139,26 @@ class MyPanel extends JPanel implements ActionListener {
 				//int dec = Integer.parseInt(antaldec.getText());
 				double tal1 = Double.parseDouble(ruta1.getText());
 				double tal2 = Double.parseDouble(ruta2.getText());
+				int dec = Integer.parseInt(antaldec.getText());
 				double summa;
 
+				nf.setMaximumFractionDigits(dec);
+				
 				if (source == buttonAddition) {
 					summa = tal1+tal2;
 					resultat.setText(nf.format(tal1) + " + " + nf.format(tal2) + " = " + nf.format(summa));
 				} else if (source == buttonSubtraktion) {
 					summa = tal1-tal2;
-					resultat.setText(tal1 + " - " + tal2 + " = "+ summa);
+					resultat.setText(nf.format(tal1) + " - " + nf.format(tal2) + " = "+ nf.format(summa));
 				} else if (source == buttonMultiplikation) {
 					summa = tal1*tal2;
-					resultat.setText(tal1 + " * " + tal2 + " = "+ summa);
+					resultat.setText(nf.format(tal1) + " * " + nf.format(tal2) + " = "+ nf.format(summa));
 				} else if (source == buttonDivision) {
 					if(tal2 == 0){
 						resultat.setText("Du kan inte dela med noll!");
 					}else{
 						summa = tal1/tal2;
-						resultat.setText(tal1 + " / " + tal2 + " = "+ summa);
+						resultat.setText(nf.format(tal1) + " / " + nf.format(tal2) + " = "+ nf.format(summa));
 					}
 				}
 			}
