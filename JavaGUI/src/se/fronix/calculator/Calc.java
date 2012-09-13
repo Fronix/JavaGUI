@@ -13,14 +13,20 @@ public class Calc {
 	}
 }
 
-class TextInWindow extends JFrame {
+class TextInWindow extends JFrame implements ActionListener {
 
 	/**
 	 * 
 	 */
+	JButton graph;
 	private static final long serialVersionUID = 1L;
 
 	public TextInWindow() {
+		this.setLayout(null);
+		graph = new JButton("Rita Graf");
+		add(graph);
+		graph.addActionListener(this);
+		
 		setTitle("text i vårt fönster + 3 knappar");
 		Toolkit tk = Toolkit.getDefaultToolkit();
 		Dimension d = tk.getScreenSize();
@@ -28,11 +34,30 @@ class TextInWindow extends JFrame {
 		int screenWidth = d.width;
 		setSize(screenWidth / 2, screenHeight / 2); // (bredd,höjd)
 		setLocation(screenWidth / 4, screenHeight / 4);
-		Container contentPane = getContentPane();
-		MyPanel p = new MyPanel();
-		contentPane.add(p);
-		setVisible(true);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent evt) {
+		Object source = evt.getSource();
+		if(source != graph){
+			MyPanel p = new MyPanel();
+			Container contentPane = getContentPane();
+			contentPane.add(p);
+			setVisible(true);
+			setDefaultCloseOperation(EXIT_ON_CLOSE);
+		}else{
+			graphPanel g = new graphPanel();
+			Container contentPane = getContentPane();
+			contentPane.add(g);
+			setVisible(true);
+			setDefaultCloseOperation(EXIT_ON_CLOSE);
+		}
+		
+		repaint();
+	}
+	
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
 	}
 
 }
@@ -48,6 +73,7 @@ class MyPanel extends JPanel implements ActionListener {
 	JButton buttonMultiplikation;
 	JButton buttonDivision;
 	JButton rensa;
+	JButton graphPanel;
 	
 	
 	JLabel resultat;
@@ -73,6 +99,7 @@ class MyPanel extends JPanel implements ActionListener {
 		buttonMultiplikation = new JButton("Multiplikation");
 		buttonDivision = new JButton("Division");
 		rensa = new JButton("Rensa");
+		graphPanel = new JButton("Rita Graf");
 		
 		ruta1 = new JTextField(20);
 		ruta2 = new JTextField(20);	
@@ -97,6 +124,7 @@ class MyPanel extends JPanel implements ActionListener {
 		add(antaldecLabel);
 		add(resultat);
 		add(header);
+		add(graphPanel);
 		/************************************************************
 		 * För varje komponent som vi lägger till måste vi sätta storlek och
 		 * placering. x-koordinat, y-koordinat(uppefrån), bredd på komponent,
@@ -107,6 +135,7 @@ class MyPanel extends JPanel implements ActionListener {
 		buttonMultiplikation.setBounds(30, 180, 110, 30);
 		buttonDivision.setBounds(30, 220, 110, 30);
 		rensa.setBounds(30, 300, 100, 30);
+		graphPanel.setBounds(10, 10, 100, 50);
 		
 		ruta1.setBounds(200, 140, 120, 20);
 		ruta2.setBounds(350, 140, 120, 20);
@@ -123,7 +152,7 @@ class MyPanel extends JPanel implements ActionListener {
 		buttonMultiplikation.addActionListener(this);
 		buttonDivision.addActionListener(this);
 		rensa.addActionListener(this);
-
+		graphPanel.addActionListener(this);
 	}
 
 	public void actionPerformed(ActionEvent evt) {
@@ -131,7 +160,7 @@ class MyPanel extends JPanel implements ActionListener {
 		NumberFormat nf = NumberFormat.getInstance();
 		/* Hämta texten från ruta1 och 2 och gör om dessa till int */
 		
-		if (source == rensa) {
+		if(source == rensa) {
 			resultat.setText("");
 			ruta1.setText("");
 			ruta2.setText("");
@@ -174,3 +203,29 @@ class MyPanel extends JPanel implements ActionListener {
 		super.paintComponent(g);
 	}
 }
+
+	class graphPanel extends JPanel implements ActionListener {
+
+		
+		JLabel testText;
+		
+		public graphPanel(){
+			this.setLayout(null);
+			
+			testText = new JLabel("En test text till grafen.");
+			add(testText);
+			testText.setBounds(30, 300, 100, 30);
+		}
+		
+		@Override
+		public void actionPerformed(ActionEvent evt) {
+			// TODO Auto-generated method stub
+			testText.setText("TEST");
+		 repaint();
+		}
+		
+		public void paintComponent(Graphics g){
+			super.paintChildren(g);
+		}
+		
+	}
