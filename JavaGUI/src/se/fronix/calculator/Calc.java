@@ -49,6 +49,7 @@ class MyPanel extends JPanel implements ActionListener {
 	JButton buttonDivision;
 	JButton rensa;
 	
+	
 	JLabel resultat;
 	JLabel header;
 	JLabel ruta1Label;

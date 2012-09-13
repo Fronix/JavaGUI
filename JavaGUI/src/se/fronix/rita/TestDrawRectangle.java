@@ -2,6 +2,9 @@ package se.fronix.rita;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.QuadCurve2D;
+
 import javax.swing.*;
 
 class MyPanel extends JPanel implements ActionListener {
@@ -12,27 +15,29 @@ class MyPanel extends JPanel implements ActionListener {
 	JButton yellowButton;
 	JButton greenButton;
 	// deklarera globala variabler
-	int x = 100, y = 200, w = 20, h = 100;
+	int x = 0, y = 0, w = 20, h = 100;
 	Color color = getBackground();
 
 	// Vi måste skapa en egen konstruktor för vår panel, som ju körs endast
 	// när vi skapar ett objekt av denna klass. Vi vill ju att när vi skapar
 	// panelen ska också knappar skapas automatiskt.
 	public MyPanel() {
-JLabel etikett = new JLabel("Rita en rektangel genom att trycka på knapparna");
-//Skapa knapparna
-redButton = new JButton("Röd liten");
-yellowButton = new JButton("Gul mellan");
-greenButton = new JButton("Grön stor");
-//lägg till dom till det här panelobjektet
-add(redButton);
-add(yellowButton);
-add(greenButton);
-//koppla på panelens händelselyssnare
-redButton.addActionListener(this);
-yellowButton.addActionListener(this);
-greenButton.addActionListener(this);
-}
+		
+		JLabel etikett = new JLabel("Rita en rektangel genom att trycka på knapparna");
+		//Skapa knapparna
+		redButton = new JButton("Röd liten");
+		yellowButton = new JButton("Gul mellan");
+		greenButton = new JButton("Grön stor");
+		//lägg till dom till det här panelobjektet
+		add(redButton);
+		add(yellowButton);
+		add(greenButton);
+		//koppla på panelens händelselyssnare
+		redButton.addActionListener(this);
+		yellowButton.addActionListener(this);
+		greenButton.addActionListener(this);
+	
+	}
 
 	// Ifall något händer dvs vi klickar på någon av knapparna, så går ett
 	// meddelande till till vår ActionListener. OM detta inträffar så måste
@@ -58,10 +63,17 @@ greenButton.addActionListener(this);
 		// för att vara säker på att "super"-klassen gör sitt
 		// anropar vi den metoden, innan vi skriver eller ritar
 		super.paintComponent(g);
+		  Stroke drawingStroke = new BasicStroke(2);
+		  QuadCurve2D curve = new QuadCurve2D.Double(0,0,2,4,4,16);
+		  //QuadCurve2D curve2 = new QuadCurve2D.Double(x1, y1, ctrlx, ctrly, x2, y2);
 		// skriv ut en textsträng, samt ange läget i avståndet från
 		// övre vänstra hörnet i x-led åt höger och i y-led neråt
 		g.setColor(color);
 		g.fillRect(x, y, w, h);
+	  Graphics2D ga = (Graphics2D)g;
+	  ga.setStroke(drawingStroke);
+	  ga.setPaint(Color.green);
+	  ga.draw(curve);
 	}
 }
 
