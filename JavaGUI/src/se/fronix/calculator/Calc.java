@@ -13,51 +13,26 @@ public class Calc {
 	}
 }
 
-class TextInWindow extends JFrame implements ActionListener {
+class TextInWindow extends JFrame {
 
 	/**
 	 * 
 	 */
-	JButton graph;
 	private static final long serialVersionUID = 1L;
 
 	public TextInWindow() {
-		this.setLayout(null);
-		graph = new JButton("Rita Graf");
-		add(graph);
-		graph.addActionListener(this);
-		
 		setTitle("text i vårt fönster + 3 knappar");
 		Toolkit tk = Toolkit.getDefaultToolkit();
 		Dimension d = tk.getScreenSize();
 		int screenHeight = d.height;
 		int screenWidth = d.width;
+		MyPanel p = new MyPanel();
+		Container contentPane = getContentPane();
+		contentPane.add(p);
+		setVisible(true);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setSize(screenWidth / 2, screenHeight / 2); // (bredd,höjd)
 		setLocation(screenWidth / 4, screenHeight / 4);
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent evt) {
-		Object source = evt.getSource();
-		if(source != graph){
-			MyPanel p = new MyPanel();
-			Container contentPane = getContentPane();
-			contentPane.add(p);
-			setVisible(true);
-			setDefaultCloseOperation(EXIT_ON_CLOSE);
-		}else{
-			graphPanel g = new graphPanel();
-			Container contentPane = getContentPane();
-			contentPane.add(g);
-			setVisible(true);
-			setDefaultCloseOperation(EXIT_ON_CLOSE);
-		}
-		
-		repaint();
-	}
-	
-	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
 	}
 
 }
@@ -203,29 +178,3 @@ class MyPanel extends JPanel implements ActionListener {
 		super.paintComponent(g);
 	}
 }
-
-	class graphPanel extends JPanel implements ActionListener {
-
-		
-		JLabel testText;
-		
-		public graphPanel(){
-			this.setLayout(null);
-			
-			testText = new JLabel("En test text till grafen.");
-			add(testText);
-			testText.setBounds(30, 300, 100, 30);
-		}
-		
-		@Override
-		public void actionPerformed(ActionEvent evt) {
-			// TODO Auto-generated method stub
-			testText.setText("TEST");
-		 repaint();
-		}
-		
-		public void paintComponent(Graphics g){
-			super.paintChildren(g);
-		}
-		
-	}
