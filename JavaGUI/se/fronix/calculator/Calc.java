@@ -2,9 +2,13 @@ package se.fronix.calculator;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.geom.Line2D;
+import java.awt.geom.QuadCurve2D;
 import java.text.NumberFormat;
 
 import javax.swing.*;
+
+import se.fronix.rita.PositiveCartesian;
 
 public class Calc {
 	@SuppressWarnings("unused")
@@ -21,7 +25,7 @@ class TextInWindow extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	public TextInWindow() {
-		setTitle("text i vårt fönster + 3 knappar");
+		setTitle("MinirÃ¤knare");
 		Toolkit tk = Toolkit.getDefaultToolkit();
 		Dimension d = tk.getScreenSize();
 		int screenHeight = d.height;
@@ -30,19 +34,45 @@ class TextInWindow extends JFrame {
 		Container contentPane = getContentPane();
 		contentPane.add(p);
 		setVisible(true);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setSize(screenWidth / 2, screenHeight / 2); // (bredd,höjd)
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		setSize(screenWidth / 2, screenHeight / 2); // (bredd,hï¿½jd)
 		setLocation(screenWidth / 4, screenHeight / 4);
 	}
 
 }
 
-class MyPanel extends JPanel implements ActionListener {
+class grafPanel extends JPanel implements ActionListener {
+	PositiveCartesian cartesian;
+	public grafPanel() {
+	}
 
+	public void actionPerformed(ActionEvent evt) {
+		Object source = evt.getSource();
+		repaint();
+	}
+
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		Graphics2D g2 = (Graphics2D) g;
+		
+        cartesian = new PositiveCartesian(100, 100);
+		cartesian.setNumbersOfCordinateNumbers(5, 5);
+		cartesian.setDistanceOfCartesianFromPanel(200, 200);
+        cartesian.populateAxisWithAdditionalNumbers(true);
+        cartesian.drawCartesian(g);
+        
+        g2.draw(new Line2D.Double(100, 300, 100, 300));
+	}
+	
+}
+
+class MyPanel extends JPanel implements ActionListener {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	int x1 = 200, y1 = 300, ctrlx = 300, ctrly = 300, x2 = 500, y2 = 300;
+	
 	JButton buttonAddition;
 	JButton buttonSubtraktion;
 	JButton buttonMultiplikation;
@@ -64,7 +94,7 @@ class MyPanel extends JPanel implements ActionListener {
 
 	public MyPanel() {
 		/************************************************************
-		 * Stäng av layoutmanager'n, dvs ingen automatisk utplacering av
+		 * Stï¿½ng av layoutmanager'n, dvs ingen automatisk utplacering av
 		 * komponenter.
 		 ************************************************************/
 		this.setLayout(null);
@@ -83,8 +113,8 @@ class MyPanel extends JPanel implements ActionListener {
 		ruta1Label = new JLabel("Tal 1");
 		ruta2Label = new JLabel("Tal 2");
 		antaldecLabel = new JLabel("AntalDec");
-		header = new JLabel("Skriv in två tal och välj räknesätt");
-		resultat = new JLabel(""); //Den ska endast visa resultat alltså ingeting i början
+		header = new JLabel("Skriv in tvÃ¥ tal och vÃ¤lj rÃ¤knesÃ¤tt");
+		resultat = new JLabel(""); //Den ska endast visa resultat alltsï¿½ ingeting i bï¿½rjan
 
 		add(buttonAddition);
 		add(buttonSubtraktion);
@@ -101,9 +131,9 @@ class MyPanel extends JPanel implements ActionListener {
 		add(header);
 		add(graphPanel);
 		/************************************************************
-		 * För varje komponent som vi lägger till måste vi sätta storlek och
-		 * placering. x-koordinat, y-koordinat(uppefrån), bredd på komponent,
-		 * höjd på komponent.
+		 * Fï¿½r varje komponent som vi lï¿½gger till mï¿½ste vi sï¿½tta storlek och
+		 * placering. x-koordinat, y-koordinat(uppefrï¿½n), bredd pï¿½ komponent,
+		 * hï¿½jd pï¿½ komponent.
 		 ************************************************************/
 		buttonAddition.setBounds(30, 100, 110, 30);
 		buttonSubtraktion.setBounds(30, 140, 110, 30);
@@ -133,12 +163,16 @@ class MyPanel extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent evt) {
 		Object source = evt.getSource();
 		NumberFormat nf = NumberFormat.getInstance();
-		/* Hämta texten från ruta1 och 2 och gör om dessa till int */
+		/* Hï¿½mta texten frï¿½n ruta1 och 2 och gï¿½r om dessa till int */
 		
 		if(source == rensa) {
 			resultat.setText("");
 			ruta1.setText("");
 			ruta2.setText("");
+		}else if (source == graphPanel) {
+			setVisible(false);
+			
+			
 		}else{
 			try {
 				//int dec = Integer.parseInt(antaldec.getText());
@@ -168,7 +202,7 @@ class MyPanel extends JPanel implements ActionListener {
 				}
 			}
 			catch(NumberFormatException nFE) {
-			    resultat.setText("Du måste skriva siffror!");
+			    resultat.setText("Du mÃ¥ste skriva siffror!");
 			}
 		}
 		repaint();
