@@ -31,10 +31,13 @@ class TextInWindow extends JFrame {
 		int screenHeight = d.height;
 		int screenWidth = d.width;
 		MyPanel p = new MyPanel();
+		grafPanel g = new grafPanel();
 		Container contentPane = getContentPane();
 		contentPane.add(p);
-		setVisible(true);
-		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		contentPane.add(g);
+		p.setVisible(true);
+		//g.setVisible(true);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setSize(screenWidth / 2, screenHeight / 2); // (bredd,h�jd)
 		setLocation(screenWidth / 4, screenHeight / 4);
 	}
@@ -171,6 +174,7 @@ class MyPanel extends JPanel implements ActionListener {
 			ruta2.setText("");
 		}else if (source == graphPanel) {
 			setVisible(false);
+			repaint();
 			
 			
 		}else{
