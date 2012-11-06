@@ -2,13 +2,11 @@ package se.fronix.calculator;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.geom.Line2D;
-import java.awt.geom.QuadCurve2D;
 import java.text.NumberFormat;
 
 import javax.swing.*;
 
-import se.fronix.rita.PositiveCartesian;
+//import se.fronix.rita.PositiveCartesian;
 
 public class Calc {
 	@SuppressWarnings("unused")
@@ -31,19 +29,19 @@ class TextInWindow extends JFrame {
 		int screenHeight = d.height;
 		int screenWidth = d.width;
 		MyPanel p = new MyPanel();
-		grafPanel g = new grafPanel();
+		//grafPanel g = new grafPanel();
 		Container contentPane = getContentPane();
 		contentPane.add(p);
-		contentPane.add(g);
+		//contentPane.add(g);
 		p.setVisible(true);
 		//g.setVisible(true);
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(screenWidth / 2, screenHeight / 2); // (bredd,h�jd)
 		setLocation(screenWidth / 4, screenHeight / 4);
 	}
 
 }
-
+/*
 class grafPanel extends JPanel implements ActionListener {
 	PositiveCartesian cartesian;
 	public grafPanel() {
@@ -67,7 +65,7 @@ class grafPanel extends JPanel implements ActionListener {
         g2.draw(new Line2D.Double(100, 300, 100, 300));
 	}
 	
-}
+} */
 
 class MyPanel extends JPanel implements ActionListener {
 	/**
@@ -172,11 +170,6 @@ class MyPanel extends JPanel implements ActionListener {
 			resultat.setText("");
 			ruta1.setText("");
 			ruta2.setText("");
-		}else if (source == graphPanel) {
-			setVisible(false);
-			repaint();
-			
-			
 		}else{
 			try {
 				//int dec = Integer.parseInt(antaldec.getText());
